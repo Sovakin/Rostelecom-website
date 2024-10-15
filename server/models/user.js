@@ -1,13 +1,18 @@
 module.exports = (sequelize, Sequelize) => {
-    const User = sequelize.define("users", {
+    const User = sequelize.define("User", { // Исправлено название модели на User
         username: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING, // Исправлено с string на STRING
+            primaryKey: true,
+            allowNull: false // Добавлено ограничение на null
         },
         email: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false, // Добавлено ограничение на null
+            unique: true // Добавлено уникальное значение
         },
         password: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false // Добавлено ограничение на null
         }
     });
 
