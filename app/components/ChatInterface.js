@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useRef, useEffect } from 'react';
 import { FiSend } from 'react-icons/fi';
 
@@ -7,12 +5,18 @@ export default function ChatInterface({ messages, addMessage }) {
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
+    const prevMessagesLengthRef = useRef(messages.length);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
-    useEffect(scrollToBottom, [messages]);
+    useEffect(() => {
+        if (messages.length > prevMessagesLengthRef.current) {
+            scrollToBottom();
+        }
+        prevMessagesLengthRef.current = messages.length;
+    }, [messages]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
