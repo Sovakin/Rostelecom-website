@@ -84,7 +84,7 @@ class AuthController {
     async getUsers(req, res) {
         try {
             const [rows] = await pool.query('SELECT * FROM users');
-            res.json(rows);
+            res.status(200).json(rows);
         } catch (e) {
             console.log(e);
             res.status(500).json({ message: 'Ошибка при получении пользователей' });
