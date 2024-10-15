@@ -24,7 +24,6 @@ module.exports = function (roles) {
             }
             console.log(decoded)
             res.status(200);
-            res.json(decoded);
             req.user = decoded;
             next();
         } catch (e) {
