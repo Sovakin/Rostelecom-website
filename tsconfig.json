@@ -22,5 +22,7 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "target": "ES6", // или выше
+  "module": "ES6", // или "commonjs" если используете Node.js
 }
