@@ -18,8 +18,10 @@ export default function ChatInterface({ messages, addMessage }) {
         e.preventDefault();
         if (!input.trim()) return;
 
+        const userMessage = { type: 'user', content: input };
+        addMessage(userMessage);
+        setInput('');
         setIsLoading(true);
-        addMessage({ type: 'user', content: input });
 
         try {
             const response = await fetch('/api/chat', {
@@ -42,20 +44,31 @@ export default function ChatInterface({ messages, addMessage }) {
         }
 
         setIsLoading(false);
-        setInput('');
     };
 
     return (
         <main className="main-content">
             <header className="chat-header">
-                <h1>Помощник Владимир</h1>
+                <h1>Консультант Владимир</h1>
             </header>
             <div className="chat-messages">
                 {messages.map((message, index) => (
-                    <div key={index} className={`message ${message.type === 'user' ? 'message-user' : 'message-bot'}`}>
-                        <p>{message.content}</p>
+                    <div key={index} className={`message-container ${message.type}-container`}>
+                        <div className={`message-label ${message.type}-label`}>
+                            {message.type === 'bot' ? 'Консультант Владимир' : 'Пользователь'}
+                        </div>
+                        <div className={`message message-${message.type}`}>
+                            {message.content}
+                        </div>
                     </div>
                 ))}
+                {isLoading && (
+                    <div className="typing-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                )}
                 <div ref={messagesEndRef} />
             </div>
             <footer className="input-area">
@@ -73,11 +86,7 @@ export default function ChatInterface({ messages, addMessage }) {
                         className="send-button"
                         disabled={isLoading}
                     >
-                        {isLoading ? (
-                            <span className="loading"></span>
-                        ) : (
-                            <FiSend size={20} />
-                        )}
+                        <FiSend size={20} />
                     </button>
                 </form>
             </footer>
