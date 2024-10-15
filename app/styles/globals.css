@@ -1,0 +1,69 @@
+:root {
+    --primary-purple: #7700ff;
+    --primary-orange: #ff4f12;
+    --background-white: #e3e8ec;
+    --text-dark: #333333;
+    --text-light: #ffffff;
+    --border-color: #d1d5db;
+}
+
+body {
+    font-family: 'Söhne', 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-white);
+    color: var(--text-dark);
+}
+
+.navbar {
+    background-color: var(--text-light);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-links {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-links li {
+    margin-left: 2rem;
+}
+
+.navbar-links a {
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+    color: var(--primary-purple);
+}
+
+.navbar-button {
+    background-color: var(--primary-purple);
+    color: var(--text-light) !important;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-button:hover {
+    background-color: #6600cc;
+}

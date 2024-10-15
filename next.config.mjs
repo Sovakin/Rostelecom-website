@@ -1,4 +1,15 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    reactStrictMode: true,
+    async redirects() {
+        return [
+            {
+                source: '/chat',
+                destination: '/chatbot',
+                permanent: true,
+            },
+        ];
+    },
+};
 
-export default nextConfig;
+module.exports = nextConfig;
