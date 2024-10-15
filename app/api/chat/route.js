@@ -34,6 +34,7 @@ export async function POST(request) {
         } else {
             return NextResponse.json({ error: 'Ошибка при получении ответа от сервера' }, { status: response.status });
         }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
         return NextResponse.json({ error: 'Произошла ошибка при выполнении запроса' }, { status: 500 });
     }

@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import ChatInterface from './components/ChatInterface';
+import Sidebar from './components/Sidebar';
+import './styles/chatgpt-blue.css';
 
 export default function Home() {
     const [messages, setMessages] = useState([]);
@@ -11,11 +13,12 @@ export default function Home() {
     };
 
     return (
-        <div className="flex flex-col h-screen bg-gray-100">
-            <header className="bg-white shadow p-4">
-                <h1 className="text-2xl font-bold">Nikita Sonnet 3.5 Chat</h1>
-            </header>
-            <ChatInterface messages={messages} addMessage={addMessage} />
+        <div className="chat-container">
+            <Sidebar />
+            <ChatInterface
+                messages={messages}
+                addMessage={addMessage}
+            />
         </div>
     );
 }
