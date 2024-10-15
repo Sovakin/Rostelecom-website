@@ -28,7 +28,7 @@ class AuthController {
             if (!errors.isEmpty()) {
                 return res.status(400).json({ message: "Ошибка при регистрации", errors });
             }
-            const { username, password } = req.body;
+            const { username, role, password } = req.body;
 
             const [rows] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
             if (rows.length > 0) {
@@ -36,12 +36,15 @@ class AuthController {
             }
 
             const hashPassword = bcrypt.hashSync(password, 7);
-            const [roleRow] = await pool.query('SELECT id FROM roles WHERE name = ?', ['USER']); // Изменено на 'name'
-            const roleId = roleRow[0].id;
-
-            await pool.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashPassword]);
+            await pool.query('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', [username, hashPassword, role]);
             const [newUser] = await pool.query('SELECT id FROM users WHERE username = ?', [username]);
-            await pool.query('INSERT INTO user_roles (user_id, role_id) VALUES (?, ?)', [newUser[0].id, roleId]);
+
+            // Отладочный вывод
+            console.log(newUser);
+
+            if (!newUser.length) {
+                return res.status(400).json({ message: "Не удалось получить ID нового пользователя" });
+            }
 
             return res.json({ message: "Пользователь успешно зарегистрирован" });
         } catch (e) {
@@ -52,7 +55,7 @@ class AuthController {
 
     async login(req, res) {
         try {
-            const { username, password } = req.body;
+            const { username, password, role} = req.body;
             const [rows] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
             if (rows.length === 0) {
                 return res.status(400).json({ message: `Пользователь ${username} не найден` });
@@ -63,11 +66,14 @@ class AuthController {
                 return res.status(400).json({ message: `Введен неверный пароль` });
             }
             const [roleRows] = await pool.query(
-                'SELECT r.name FROM roles r JOIN user_roles ur ON r.id = ur.role_id WHERE ur.user_id = ?',
-                [user.id]
+                'SELECT role FROM users WHERE role = ?',
+                [role]
             );
-            const roles = roleRows.map(row => row.name); // Изменено на 'name'
-            const token = generateAccessToken(user.id, roles);
+            console.log([roleRows])
+            const roles = roleRows.map(row => row.role);
+            console.log(roles);
+            const token = generateAccessToken(user.id, roles[0]);
+
             return res.json({ token });
         } catch (e) {
             console.log(e);
@@ -82,15 +88,6 @@ class AuthController {
         } catch (e) {
             console.log(e);
             res.status(500).json({ message: 'Ошибка при получении пользователей' });
-        }
-    }
-
-    async check(req, res) {
-        try{
-
-        } catch (e) {
-            console.log(e);
-            res.status(500).json({message: "Ошибка при авторизации"})
         }
     }
 }
