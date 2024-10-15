@@ -1,0 +1,45 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+.title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.form {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 2rem;
+}
+
+.input {
+    flex-grow: 1;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 4px 0 0 4px;
+}
+
+.button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+.response {
+    width: 100%;
+    max-width: 600px;
+    background-color: #f0f0f0;
+    padding: 1rem;
+    border-radius: 4px;
+}

@@ -1,11 +1,15 @@
 const mysql = require('mysql2');
 
-// Создание подключения к базе данных
+// Создание подключения к базе данных с вашими данными
 const connection = mysql.createConnection({
-    host: 'localhost', // или ваш хост
-    user: 'your_username', // замените на ваше имя пользователя
-    password: 'your_password', // замените на ваш пароль
-    database: 'your_database_name' // замените на имя вашей базы данных
+    host: '89.111.131.32',
+    user: 'fr1ix',
+    password: 'frix',
+    database: 'mydb',
+    port: 3306,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
 // Подключение к базе данных
@@ -54,9 +58,7 @@ connection.connect((err) => {
     });
 });
 
-
-
-// Закрытие соединения (по необходимости, например, после завершения всех запросов)
+// Закрытие соединения
 process.on('exit', () => {
     connection.end();
 });
