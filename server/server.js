@@ -48,11 +48,12 @@ connection.connect((err) => {
     // SQL-запрос для создания таблицы User
     const createUserTable = `
     CREATE TABLE IF NOT EXISTS User (
-      username VARCHAR(255) NOT NULL,
-      email VARCHAR(255) NOT NULL,
-      password VARCHAR(255) NOT NULL,
-      roleId INT,
-      FOREIGN KEY (roleId) REFERENCES Roles(id)
+        user_id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        roleId INT,
+        FOREIGN KEY (roleId) REFERENCES Roles(id)
     );
   `;
 
