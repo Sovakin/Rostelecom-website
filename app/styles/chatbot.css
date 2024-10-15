@@ -280,6 +280,18 @@
     margin-bottom: 1.2rem;
 }
 
+.chatbot-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.chatbot-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
 @media (max-width: 768px) {
     .chat-container {
         flex-direction: column;
