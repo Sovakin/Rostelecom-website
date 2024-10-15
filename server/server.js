@@ -50,7 +50,7 @@ connection.connect((err) => {
     CREATE TABLE IF NOT EXISTS User (
         user_id INT AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(255) NOT NULL,
-        email VARCHAR(255) NOT NULL,
+        email VARCHAR(255),
         password VARCHAR(255) NOT NULL,
         roleId INT,
         FOREIGN KEY (roleId) REFERENCES Roles(id)
