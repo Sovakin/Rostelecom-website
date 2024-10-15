@@ -1,10 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { FiSend } from 'react-icons/fi';
 
 export default function ChatInterface({ messages, addMessage }) {
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const messagesEndRef = useRef(null);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    useEffect(scrollToBottom, [messages]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -38,38 +46,41 @@ export default function ChatInterface({ messages, addMessage }) {
     };
 
     return (
-        <>
-            <main className="flex-grow overflow-auto p-4">
-                <div className="max-w-3xl mx-auto space-y-4">
-                    {messages.map((message, index) => (
-                        <div key={index} className={`p-3 rounded-lg ${
-                            message.type === 'user' ? 'bg-blue-100 ml-auto' :
-                                message.type === 'bot' ? 'bg-green-100' : 'bg-red-100'
-                        } max-w-sm`}>
-                            {message.content}
-                        </div>
-                    ))}
-                </div>
-            </main>
-            <footer className="bg-white p-4">
-                <form onSubmit={handleSubmit} className="max-w-3xl mx-auto flex">
+        <main className="main-content">
+            <header className="chat-header">
+                <h1>Помощник Владимир</h1>
+            </header>
+            <div className="chat-messages">
+                {messages.map((message, index) => (
+                    <div key={index} className={`message ${message.type === 'user' ? 'message-user' : 'message-bot'}`}>
+                        <p>{message.content}</p>
+                    </div>
+                ))}
+                <div ref={messagesEndRef} />
+            </div>
+            <footer className="input-area">
+                <form onSubmit={handleSubmit} className="input-box">
                     <input
                         type="text"
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         placeholder="Введите ваше сообщение..."
-                        className="flex-grow p-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="input-field"
                         disabled={isLoading}
                     />
                     <button
                         type="submit"
-                        className="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="send-button"
                         disabled={isLoading}
                     >
-                        {isLoading ? 'Отправка...' : 'Отправить'}
+                        {isLoading ? (
+                            <span className="loading"></span>
+                        ) : (
+                            <FiSend size={20} />
+                        )}
                     </button>
                 </form>
             </footer>
-        </>
+        </main>
     );
 }
