@@ -1,21 +1,24 @@
 'use client';
 
 import { useState } from 'react';
-import Sidebar from '../components/Sidebar';
 import ChatInterface from '../components/ChatInterface';
-import styles from './chatbot.module.css';
+import Sidebar from '../components/Sidebar';
+import '../styles/chatbot.css';
 
 export default function ChatbotPage() {
     const [messages, setMessages] = useState([]);
 
     const addMessage = (message) => {
-        setMessages((prevMessages) => [...prevMessages, message]);
+        setMessages(prev => [...prev, message]);
     };
 
     return (
-        <div className={styles.chatContainer}>
+        <div className="chat-container">
             <Sidebar />
-            <ChatInterface messages={messages} addMessage={addMessage} />
+            <ChatInterface
+                messages={messages}
+                addMessage={addMessage}
+            />
         </div>
     );
 }
