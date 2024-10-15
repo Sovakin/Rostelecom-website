@@ -1,0 +1,27 @@
+:root {
+    --primary-purple: #7700ff;
+    --primary-orange: #ff4f12;
+    --background-white: #e3e8ec;
+    --text-dark: #333333;
+    --text-light: #ffffff;
+    --border-color: #d1d5db;
+}
+
+body {
+    font-family: 'Söhne', 'Helvetica Neue', Arial, sans-serif;
+    color: var(--text-dark);
+    background-color: var(--background-white);
+    margin: 0;
+    padding: 0;
+}
+
+.chat-container {
+    display: flex;
+    height: 100vh;
+}
+
+@media (max-width: 768px) {
+    .chat-container {
+        flex-direction: column;
+    }
+}
