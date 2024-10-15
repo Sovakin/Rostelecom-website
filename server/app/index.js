@@ -3,9 +3,9 @@ const mysql = require('mysql2');
 // Создание подключения к базе данных с вашими данными
 const connection = mysql.createConnection({
     host: '89.111.131.32',
-    user: 'fr1ix',
-    password: 'frix',
-    database: 'mydb',
+    user: 'root',
+    password: '123',
+    database: 'test',
     port: 3306,
     waitForConnections: true,
     connectionLimit: 10,
