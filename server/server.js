@@ -3,7 +3,7 @@ const cors = require('cors');
 const events = require('events');
 const PORT = 5000;
 const OpenAI = require('openai');
-const openai = new OpenAI({apiKey:'qweqweqw'})
+const db = require('./app/db')
 
 const emitter = new events.EventEmitter();
 
