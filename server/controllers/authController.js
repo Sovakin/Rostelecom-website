@@ -84,6 +84,15 @@ class AuthController {
             res.status(500).json({ message: 'Ошибка при получении пользователей' });
         }
     }
+
+    async check(req, res) {
+        try{
+
+        } catch (e) {
+            console.log(e);
+            res.status(500).json({message: "Ошибка при авторизации"})
+        }
+    }
 }
 
 module.exports = new AuthController();

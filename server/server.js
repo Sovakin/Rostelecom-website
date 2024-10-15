@@ -2,7 +2,6 @@ const express = require ('express');
 const cors = require('cors');
 const events = require('events');
 const PORT = 5000;
-const OpenAI = require('openai');
 const auth = require('./routes/auth')
 
 const emitter = new events.EventEmitter();
@@ -16,21 +15,7 @@ app.get('/', (req, res) => {
     res.json({message: "123"})
 })
 
-app.use("/signin", auth);
-
-//Long Pulling method
-app.get('/get-message', (req, res) => {
-    emitter.once('newMessage', (message) => {
-        res.json(message)
-    })
-})
-
-app.post('/new-message', (req, res) => {
-    const message = req.body;
-    emitter.emit('newMessage', message);
-    res.status(200);
-
-})
+app.use("/auth", auth);
 
 // DateBase
 const mysql = require('mysql2');
@@ -56,7 +41,7 @@ connection.connect((err) => {
     const createRolesTable = `
     CREATE TABLE IF NOT EXISTS Roles (
       id INT AUTO_INCREMENT PRIMARY KEY,
-      name VARCHAR(255) NOT NULL
+      role_name VARCHAR(255) NOT NULL
     );
   `;
 
