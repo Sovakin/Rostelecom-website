@@ -8,6 +8,11 @@ const nextConfig = {
                 destination: '/chatbot',
                 permanent: true,
             },
+            {
+                source: '/auth',
+                destination: '/auth',
+                permanent: true,
+            }
         ];
     },
 };

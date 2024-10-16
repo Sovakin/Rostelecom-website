@@ -4,8 +4,6 @@ const events = require('events');
 const PORT = 5000;
 const auth = require('./routes/auth')
 
-const emitter = new events.EventEmitter();
-
 const app = express();
 
 app.use(cors());
@@ -15,7 +13,7 @@ app.get('/', (req, res) => {
     res.json({message: "123"})
 })
 
-app.use("/auth", auth);
+app.use("/api", auth);
 
 // DateBase
 const mysql = require('mysql2');
