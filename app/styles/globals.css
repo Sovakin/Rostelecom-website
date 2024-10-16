@@ -68,50 +68,197 @@ body {
     background-color: #6600cc;
 }
 
-.login-page {
+.home-page {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
 }
 
-.login-form {
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4rem 2rem;
+    background-color: var(--primary-purple);
+    color: var(--text-light);
     width: 100%;
-    max-width: 500px;
-    padding: 2rem;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.form-group {
+.hero-content {
+    max-width: 600px;
+    margin-left: 450px;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
     margin-bottom: 1rem;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
+.hero-content p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    background-color: var(--primary-orange);
+    color: var(--text-light);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    text-decoration: none;
     font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
-.form-group input {
+.cta-button:hover {
+    background-color: #e64610;
+}
+
+.hero-image {
+    margin-right: 400px;
+    max-width: 500px;
+}
+
+.services-section {
+    padding: 4rem 2rem;
+    background-color: var(--background-white);
+    text-align: center;
     width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
 }
 
-.login-button {
+.services-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-dark);
+}
+
+.services-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.service-card {
+    background-color: var(--text-light);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    width: 250px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.service-card h3 {
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    color: var(--text-dark);
+}
+
+.service-card p {
+    margin-top: 0.5rem;
+    color: var(--text-dark);
+}
+
+.promo-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4rem 2rem;
+    background-color: var(--background-white);
     width: 100%;
-    padding: 0.75rem;
-    background-color: var(--primary-purple);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-.login-button:hover {
-    background-color: #6600cc;
+.promo-content {
+    max-width: 600px;
+}
+
+.promo-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+
+.promo-content p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    color: var(--text-dark);
+}
+
+.promo-image {
+    max-width: 500px;
+}
+
+.telegram-bot-section {
+    padding: 4rem 2rem;
+    background-color: var(--background-white);
+    text-align: center;
+    width: 100%;
+}
+
+.telegram-bot-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-dark);
+}
+
+.telegram-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.telegram-info {
+    max-width: 600px;
+}
+
+.telegram-info p {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-dark);
+}
+
+.telegram-button {
+    background-color: #0088cc; /* Цвет Telegram */
+    color: var(--text-light);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.telegram-button:hover {
+    background-color: #006699;
+}
+
+.telegram-qr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 1024px) {
+    .hero-section,
+    .promo-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-image,
+    .promo-image {
+        margin-top: 2rem;
+        max-width: 100%;
+    }
+
+    .services-container {
+        flex-direction: column;
+        align-items: center;
+    }
 }

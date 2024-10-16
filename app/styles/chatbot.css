@@ -7,9 +7,16 @@
     --border-color: #d1d5db;
 }
 
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
 .chat-container {
     display: flex;
-    height: 100vh;
+    height: 91vh;
 }
 
 .sidebar {
@@ -19,6 +26,14 @@
     padding: 1rem;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+}
+
+.chat-interface {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .sidebar-title {
@@ -81,9 +96,12 @@
     margin: 0;
 }
 
-.chat-messages {
+.chat-messages-container {
     flex-grow: 1;
     overflow-y: auto;
+}
+
+.chat-messages {
     padding: 1rem 30rem 1rem 30rem;
     display: flex;
     flex-direction: column;
@@ -104,9 +122,9 @@
 }
 
 .message {
-    min-width: 48px;
-    max-width: 377px;
-    padding: 0.5rem 0.75rem;
+    min-width: 60px;
+    max-width: 600px; /* Увеличен максимум ширины для длинных сообщений */
+    padding: 5px 5px; /* Увеличены отступы для лучшего восприятия */
     border-radius: 1rem;
     line-height: 1.5;
     word-wrap: break-word;
@@ -117,15 +135,16 @@
     animation: fadeIn 0.2s ease-out forwards;
 }
 
-.message:last-child {
-    margin-bottom: 0;
-}
-
+/* Анимация появления сообщений */
 @keyframes fadeIn {
     to {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.message:last-child {
+    margin-bottom: 0;
 }
 
 .message-user {
@@ -143,6 +162,7 @@
     border-bottom-left-radius: 0.25rem;
 }
 
+/* Стили для групп сообщений */
 .message-group.user .message:not(:last-child) {
     border-bottom-right-radius: 0.25rem;
 }
@@ -302,7 +322,52 @@
         height: auto;
     }
 
-    .main-content {
+    .chat-interface {
         width: 100%;
     }
+
+    .chat-messages {
+        padding: 1rem;
+    }
+}
+
+/* Стили для Markdown внутри сообщений бота */
+.message-bot h1,
+.message-bot h2,
+.message-bot h3,
+.message-bot h4,
+.message-bot h5,
+.message-bot h6 {
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.message-bot p {
+    margin: 0.5rem 0;
+}
+
+.message-bot strong {
+    font-weight: bold;
+}
+
+.message-bot ul,
+.message-bot ol {
+    padding-left: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+.message-bot li {
+    margin-bottom: 0.25rem;
+}
+
+.message-bot a {
+    color: var(--primary-purple);
+    text-decoration: underline;
+}
+
+.message-bot blockquote {
+    border-left: 4px solid var(--border-color);
+    padding-left: 1rem;
+    color: var(--text-dark);
+    margin: 0.5rem 0;
 }

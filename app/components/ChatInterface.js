@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { FiSend } from 'react-icons/fi';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 export default function ChatInterface({ messages, addMessage }) {
     const [input, setInput] = useState('');
@@ -27,13 +29,18 @@ export default function ChatInterface({ messages, addMessage }) {
         setInput('');
         setIsLoading(true);
 
+        // Формирование истории диалога
+        const history = messages.map(msg => {
+            return msg.type === 'user' ? `Пользователь: ${msg.content}` : `Консультант Владимир: ${msg.content}`;
+        }).join('\n');
+
         try {
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ value: input }),
+                body: JSON.stringify({ value: `${history}\nПользователь: ${input}` }),
             });
 
             if (!response.ok) {
@@ -51,29 +58,39 @@ export default function ChatInterface({ messages, addMessage }) {
     };
 
     return (
-        <main className="main-content">
+        <div className="chat-interface">
             <header className="chat-header">
                 <h1>Консультант Владимир</h1>
             </header>
-            <div className="chat-messages">
-                {messages.map((message, index) => (
-                    <div key={index} className={`message-container ${message.type}-container`}>
-                        <div className={`message-label ${message.type}-label`}>
-                            {message.type === 'bot' ? 'Консультант Владимир' : 'Пользователь'}
+            <div className="chat-messages-container">
+                <div className="chat-messages">
+                    {messages.map((message, index) => (
+                        <div key={index} className={`message-container ${message.type}-container`}>
+                            <div className={`message-label ${message.type}-label`}>
+                                {message.type === 'bot' ? 'Консультант Владимир' : 'Пользователь'}
+                            </div>
+                            <div className={`message message-${message.type}`}>
+                                <ReactMarkdown
+                                    children={message.content}
+                                    remarkPlugins={[remarkGfm]}
+                                    components={{
+                                        a: ({node, ...props}) => (
+                                            <a {...props} target="_blank" rel="noreferrer" />
+                                        )
+                                    }}
+                                />
+                            </div>
                         </div>
-                        <div className={`message message-${message.type}`}>
-                            {message.content}
+                    ))}
+                    {isLoading && (
+                        <div className="typing-indicator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
                         </div>
-                    </div>
-                ))}
-                {isLoading && (
-                    <div className="typing-indicator">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                )}
-                <div ref={messagesEndRef} />
+                    )}
+                    <div ref={messagesEndRef} />
+                </div>
             </div>
             <footer className="input-area">
                 <form onSubmit={handleSubmit} className="input-box">
@@ -94,6 +111,6 @@ export default function ChatInterface({ messages, addMessage }) {
                     </button>
                 </form>
             </footer>
-        </main>
+        </div>
     );
 }
