@@ -1,20 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { login } from '../http/index';
+import { UserContext } from '../context/UserContext';
 
-export default function LoginForm() {
+function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { setUser } = useContext(UserContext);
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Здесь будет логика аутентификации
-        console.log('Login attempt', { email, password });
+    const handleClick = async (event) => {
+        event.preventDefault(); // Предотвращает стандартное поведение отправки формы
+        try {
+            const data = await login(email, password);
+            setUser({
+                ...user,
+                isAuth: true,
+                user: data
+            });
+            navigate('/'); // Перенаправление на главную страницу после успешного входа
+        } catch (error) {
+            alert(error.response.data.message);
+        }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="login-form">
-            <div className="form-group">
+        <form>
+            <div>
                 <label htmlFor="email">Email:</label>
                 <input
                     type="email"
@@ -24,7 +38,7 @@ export default function LoginForm() {
                     required
                 />
             </div>
-            <div className="form-group">
+            <div>
                 <label htmlFor="password">Пароль:</label>
                 <input
                     type="password"
@@ -34,7 +48,9 @@ export default function LoginForm() {
                     required
                 />
             </div>
-            <button type="submit" className="login-button">Войти</button>
+            <button type="submit" onClick={handleClick}>Войти</button>
         </form>
     );
 }
+
+export default LoginForm;

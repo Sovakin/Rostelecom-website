@@ -16,8 +16,8 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
-const generateAccessToken = (id, roles) => {
-    const payload = { id, roles };
+const generateAccessToken = (id, email, roles) => {
+    const payload = { id, email, roles };
     return jwt.sign(payload, secret, { expiresIn: "24h" });
 };
 
@@ -28,23 +28,20 @@ class AuthController {
             if (!errors.isEmpty()) {
                 return res.status(400).json({ message: "Ошибка при регистрации", errors });
             }
-            const { username, role, password } = req.body;
+            const { username, role, password, email } = req.body;
 
-            const [rows] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
-            if (rows.length > 0) {
+            const [rowsName] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
+            if (rowsName.length > 0) {
+                return res.status(400).json({ message: "Пользователь с таким именем уже существует" });
+            }
+
+            const [rowsEmail] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+            if (rowsEmail.length > 0) {
                 return res.status(400).json({ message: "Пользователь с таким именем уже существует" });
             }
 
             const hashPassword = bcrypt.hashSync(password, 7);
-            await pool.query('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', [username, hashPassword, role]);
-            const [newUser] = await pool.query('SELECT id FROM users WHERE username = ?', [username]);
-
-            // Отладочный вывод
-            console.log(newUser);
-
-            if (!newUser.length) {
-                return res.status(400).json({ message: "Не удалось получить ID нового пользователя" });
-            }
+            await pool.query('INSERT INTO users (username, password, role, email) VALUES (?, ?, ?, ?)', [username, hashPassword, role, email]);
 
             return res.json({ message: "Пользователь успешно зарегистрирован" });
         } catch (e) {
@@ -55,12 +52,19 @@ class AuthController {
 
     async login(req, res) {
         try {
-            const { username, password, role} = req.body;
-            const [rows] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
-            if (rows.length === 0) {
+            const { username, email, password, role} = req.body;
+            const [rowsName] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
+            if (rowsName.length === 0) {
                 return res.status(400).json({ message: `Пользователь ${username} не найден` });
             }
-            const user = rows[0];
+            const user = rowsName[0];
+
+            const [rowsEmale] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+            if (rowsEmale.length === 0) {
+                return res.status(400).json({ message: `Пользователь ${username} не найден` });
+            }
+            const Email = rowsEmale[0];
+
             const validPassword = bcrypt.compareSync(password, user.password);
             if (!validPassword) {
                 return res.status(400).json({ message: `Введен неверный пароль` });
@@ -72,7 +76,7 @@ class AuthController {
             console.log([roleRows])
             const roles = roleRows.map(row => row.role);
             console.log(roles);
-            const token = generateAccessToken(user.id, roles[0]);
+            const token = generateAccessToken(user.id, Email, roles[0]);
 
             return res.json({ token });
         } catch (e) {
@@ -89,6 +93,11 @@ class AuthController {
             console.log(e);
             res.status(500).json({ message: 'Ошибка при получении пользователей' });
         }
+    }
+
+    async check(req, res, next) {
+        const token = generateAccessToken(req.user.id, req.user.email, req.user.role)
+        return res.json({token})
     }
 }
 
