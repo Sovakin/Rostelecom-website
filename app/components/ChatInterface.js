@@ -71,14 +71,15 @@ export default function ChatInterface({ messages, addMessage }) {
                             </div>
                             <div className={`message message-${message.type}`}>
                                 <ReactMarkdown
-                                    children={message.content}
                                     remarkPlugins={[remarkGfm]}
                                     components={{
-                                        a: ({node, ...props}) => (
+                                        a: ({...props}) => (
                                             <a {...props} target="_blank" rel="noreferrer" />
                                         )
                                     }}
-                                />
+                                >
+                                    {message.content}
+                                </ReactMarkdown>
                             </div>
                         </div>
                     ))}
